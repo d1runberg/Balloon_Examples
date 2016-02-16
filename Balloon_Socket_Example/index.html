@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>  </head>
+  <body>
+    <script>
+      var socket = io.connect();
+
+      socket.on('info', function(data){
+        $('#temperature').text(data.temp);
+      });
+
+      socket.on('number',function(data){
+        $('#pressure').text(data.pres);
+      });
+    </script>
+    <h2> Temperature fahrenheit: <h2>
+    <div id="temperature"></div>
+    <br>
+    <h2><b>Altitude (Ft): <b></h2>
+    <div id="alt"></div>
+  </body>
+</html>
