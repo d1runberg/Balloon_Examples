@@ -1,40 +1,55 @@
+//require express for website framework
 var app = require('express')();
+//require http
 var http = require('http').Server(app);
+//require socket.io
 var io = require('socket.io')(http);
+//require fs (fileSystem)
 var fileSys = require('fs');
-
+//require johnny five
 var five = require('johnny-five');
+
+//create a new generic board
 var board = new five.Board();
 
+//create global variables
 var temp;
 var altitude;
 var headString = 'Time Stamp,Temperature(F),Altitude(Ft)'+'\n';
 var logString;
 
-
+//append log.csv with header string
 fileSys.appendFile('log.csv', headString,function(err){
    if(err){
       console.log(err);
    }
 } );
 
+//when the board recieves "ready"
 board.on('ready', function(){
-//create sensor object
+//create sensor object with contoller of MPL3115A2
    var alt = new five.Multi({
       controller: 'MPL3115A2',
+// base elevation of cornellius, OR
       elevation: 64
    });
-   //update the lightVal variable with the sensor value
+   //when altimeter recieves new 'data'....
    alt.on('data', function(){
+   //create a new date object
       var date = new Date();
+   //capture temperature
       temp = this.temperature.fahrenheit;
+   //capture altitude
       altitude = this.altimeter.feet;
+   //build the log string
       logString = date.toString() + ',' + temp + ',' + altitude +'\n';
    });
 });
 // log data every 5 seconds
 setInterval(function(){
+//append log.csv with new log
    fileSys.appendFile('log.csv', logString, function(err){
+//if error, log to console
       if(err){
          console.log(err);
       }

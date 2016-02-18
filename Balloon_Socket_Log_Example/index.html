@@ -1,23 +1,31 @@
-<html>
-  <head>
+<html><!--Start document-->
+
+  <head><!--Head-->
+    <!--Add socket.io-->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- Add ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>  </head>
-  <body>
+</head><!--End Head-->
+
+  <body><!--start body-->
+    <!--Start javaScript-->
     <script>
+      //start socket.io
       var socket = io.connect();
-
+      //when recieves 'info'....
       socket.on('info', function(data){
+        //use JQuery to replace html text in document
         $('#temperature').text(data.temp);
-      });
-
-      socket.on('number',function(data){
-        $('#pressure').text(data.pres);
+        $('#alt').text(data.pres);
       });
     </script>
+    <!-- End JavaScript-->
+    <!--Display data -->
     <h2> Temperature fahrenheit: <h2>
     <div id="temperature"></div>
     <br>
     <h2><b>Altitude (Ft): <b></h2>
     <div id="alt"></div>
-  </body>
-</html>
+    <div id = "text"></div>
+</body><!--End body-->
+</html><!--end doc-->

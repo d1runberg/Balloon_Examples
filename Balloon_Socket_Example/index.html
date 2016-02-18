@@ -1,27 +1,5 @@
 <html>
   <head>
-     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="../../favicon.ico">
-
-        <title>Education HAB Dashboard</title>
-
-   
-
-
-        <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>  </head>
   <body>
@@ -34,84 +12,11 @@
       });
     </script>
 
-    <div class="row">
-      <div class= "col-md-1"></div>
-      <div class= "col-md-4">
+   <div>
          <h2> Balloon Data </h2>
-    <table class="table-striped table-condensed" width=50%>
-      <tr>
-        <td><b>Temperature(F)</b></td>
-        <td>  <span id="temperature"></span>
-      </tr>
-      <tr>
-        <td><b>Elevation(Ft)</b></td>
-        <td><span id="alt"></span></td>
-      </tr>
-    </table>
+    <p> <b>Temperature(F):</b> <span id="temperature"></span> </p>
+    <p> <b>Elevation(Ft):</b> <span id="alt"></span></p>
+
 </div>
-<div class= "col-md-6">
-   <h2> Overview of Data</h2>
-   <p> This is a live data dashboard to be used in conjuucture with the SparkFun Education HAB project.
-   This version uses Johnny-Five in combination with Socket.io to collected data from the MPL3115A2 barrometric pressure sensor and display current temperature and elevation. </p>
-
-   <p> Johnny-Five is used for the GPIO interaction, while Socket.io is used as a transport layer to get the live data into an HTML page. Bootstrap is used for a touch of style</p>
-   <pre>
-   <code>
-      var app = require('express')();
-      var http = require('http').Server(app);
-      var io = require('socket.io')(http);
-
-      var five = require('johnny-five');
-      var board = new five.Board();
-
-      var temp;
-      var altitude;
-
-      board.on('ready', function(){
-      //create sensor object
-         var alt = new five.Multi({
-            //I2C sensor board
-            controller: 'MPL3115A2',
-            //starting altitude (Cornelius, OR) in meters
-            elevation: 64
-         });
-         //update the lightVal variable with the sensor value
-         alt.on('change', function(){
-            temp = this.temperature.fahrenheit;
-            altitude = this.altimeter.feet;
-         });
-      });
-
-      //routing for the server to index.html page
-      app.get('/', function(req, res){
-        res.sendFile(__dirname + '/index.html');
-      });
-
-      //when client connects trigger timed emitters. 1 the time stamp and 2 the light value
-      //on the digital sandbox
-      io.on('connection', function(socket){
-          //send date to client every 1000ms
-          setInterval(function(){
-                  socket.emit('info', {'temp': temp, 'alt': altitude});
-                  }, 1000);
-      });
-
-      http.listen(3000, function(){
-        console.log('listening on *:3000');
-      });
-   </code>
-   </pre>
-</div>
-</div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
