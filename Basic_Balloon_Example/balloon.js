@@ -6,7 +6,8 @@ var board = new five.Board()
 board.on('ready',function(){
 
    var alt = new five.Multi({
-      controller: 'MPL3115A2'
+      controller: 'MPL3115A2',
+      elevation: 64
    });
 
    alt.on('change', function(){

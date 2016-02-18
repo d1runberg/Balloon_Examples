@@ -11,7 +11,7 @@ var altitude;
 var date = new Date();
 var headString = 'Time Stamp,Temperature(F),Altitude(Ft)';
 
-fs.appendFile('log.csv', headString,function(err){
+fileSys.appendFile('log.csv', headString,function(err){
    if(err){
       console.log(err);
    }
@@ -19,15 +19,16 @@ fs.appendFile('log.csv', headString,function(err){
 
 board.on('ready', function(){
 //create sensor object
-   var alt = new five.Muli({
-      controller: 'MPL3115A2'
+   var alt = new five.Multi({
+      controller: 'MPL3115A2',
+      elevation: 211
    });
    //update the lightVal variable with the sensor value
    alt.on('change', function(){
       temp = this.temperature.fahrenheit;
       altitude = this.altimeter.feet;
       var logString = date.toString() + ',' + temp + ',' + altitude
-      fs.appendFile('log.csv', logString, function(err){
+      fileSys.appendFile('log.csv', logString, function(err){
          if(err){
             console.log(err);
          }

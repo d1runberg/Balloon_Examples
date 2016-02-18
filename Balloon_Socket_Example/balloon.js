@@ -10,8 +10,11 @@ var altitude;
 
 board.on('ready', function(){
 //create sensor object
-   var alt = new five.Muli({
-      controller: 'MPL3115A2'
+   var alt = new five.Multi({
+      //I2C sensor board
+      controller: 'MPL3115A2',
+      //starting altitude (Cornelius, OR) in meters
+      elevation: 64
    });
    //update the lightVal variable with the sensor value
    alt.on('change', function(){
