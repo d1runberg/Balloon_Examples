@@ -1,46 +1,27 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var fileSys = require('fs');
 
 var five = require('johnny-five');
 var board = new five.Board();
 
 var temp;
 var altitude;
-var headString = 'Time Stamp,Temperature(F),Altitude(Ft)'+'\n';
-var logString;
-
-
-fileSys.appendFile('log.csv', headString,function(err){
-   if(err){
-      console.log(err);
-   }
-} );
 
 board.on('ready', function(){
 //create sensor object
    var alt = new five.Multi({
+      //I2C sensor board
       controller: 'MPL3115A2',
+      //starting altitude (Cornelius, OR) in meters
       elevation: 64
    });
    //update the lightVal variable with the sensor value
-   alt.on('data', function(){
-      var date = new Date();
+   alt.on('change', function(){
       temp = this.temperature.fahrenheit;
       altitude = this.altimeter.feet;
-      logString = date.toString() + ',' + temp + ',' + altitude +'\n';
    });
 });
-// log data every 5 seconds
-setInterval(function(){
-   fileSys.appendFile('log.csv', logString, function(err){
-      if(err){
-         console.log(err);
-      }
-      logString = '';
-   });
-},5000);
 
 //routing for the server to index.html page
 app.get('/', function(req, res){
